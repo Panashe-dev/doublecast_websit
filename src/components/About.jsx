@@ -1,3 +1,6 @@
+import { ABOUT_IMAGE } from "../data/images";
+import ResponsiveImage from "./ResponsiveImage";
+
 const values = [
   "Integrity",
   "Craftsmanship",
@@ -8,7 +11,7 @@ const values = [
 ];
 
 const Check = () => (
-  <svg viewBox="0 0 24 24">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
     <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
   </svg>
 );
@@ -17,17 +20,14 @@ export default function About() {
   return (
     <section id="about">
       <div className="about-inner">
-        <div className="about-img reveal-left">
-          <img
-            src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=900&q=80"
-            alt="About Double Cast"
-          />
+        <div className="about-img">
+          <ResponsiveImage image={ABOUT_IMAGE} priority />
         </div>
-        <div className="about-content reveal-right">
+        <div className="about-content">
           <span className="section-tag">About Double Cast</span>
-          <h2 className="section-title">
+          <h1 className="section-title">
             A construction partner you can build a future with.
-          </h2>
+          </h1>
           <p className="section-sub">
             Founded in Harare and rooted in the Damafalls community, Double Cast
             Construction & Civil Works has grown into a trusted name for

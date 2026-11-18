@@ -1,42 +1,53 @@
 import { useEffect, useRef } from "react";
+import { PROJECT_IMAGES } from "../data/images";
+import ResponsiveImage from "./ResponsiveImage";
 
 const projects = [
   {
     title: "Residential Estate, Harare",
     cat: "Full Construction",
-    img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=700&q=80",
+    img: PROJECT_IMAGES.residentialEstate,
   },
   {
     title: "Commercial Office Block",
     cat: "Structural & Finishes",
-    img: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=700&q=80",
+    img: PROJECT_IMAGES.officeBlock,
   },
   {
     title: "Damafalls Family Home",
     cat: "Renovation",
-    img: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=700&q=80",
+    img: PROJECT_IMAGES.familyHome,
   },
   {
     title: "Industrial Warehouse",
     cat: "Civil & Structural",
-    img: "https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=700&q=80",
+    img: PROJECT_IMAGES.warehouse,
   },
   {
     title: "Boundary Wall & Paving",
     cat: "Pavement & Civil",
-    img: "https://images.unsplash.com/photo-1503387837-b154d5074bd2?w=700&q=80",
+    img: PROJECT_IMAGES.paving,
   },
   {
     title: "Luxury Villa Build",
     cat: "Full Construction",
-    img: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=700&q=80",
+    img: PROJECT_IMAGES.villa,
   },
 ];
 
-export default function Projects() {
+export default function Projects({ isPage = false, limit }) {
   const gridRef = useRef(null);
+  const Heading = isPage ? "h1" : "h2";
+  const CardHeading = isPage ? "h2" : "h3";
+  const reveal = isPage ? "" : " reveal";
+  const visibleProjects = limit ? projects.slice(0, limit) : projects;
 
   useEffect(() => {
+    const canTilt = window.matchMedia(
+      "(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)",
+    ).matches;
+    if (!canTilt) return undefined;
+
     const cards = gridRef.current?.querySelectorAll(".project-card") ?? [];
     const handlers = [];
     cards.forEach((card) => {
@@ -67,24 +78,35 @@ export default function Projects() {
   return (
     <section id="projects">
       <div className="section-head">
-        <span className="section-tag reveal">Selected Work</span>
-        <h2 className="section-title reveal">Projects we&apos;re proud of.</h2>
-        <p className="section-sub reveal">
+        <span className={`section-tag${reveal}`}>Selected Work</span>
+        <Heading className={`section-title${reveal}`}>
+          Projects we&apos;re proud of.
+        </Heading>
+        <p className={`section-sub${reveal}`}>
           A snapshot of builds delivered across Harare and beyond — residential,
           commercial, civil and refurbishment.
         </p>
       </div>
       <div className="projects-grid" ref={gridRef}>
-        {projects.map((p, i) => (
-          <div className="project-card stagger" key={i}>
-            <img src={p.img} alt={p.title} />
+        {visibleProjects.map((p, i) => (
+          <div
+            className={`project-card${isPage && i === 0 ? "" : " stagger"}`}
+            key={p.title}>
+            <ResponsiveImage image={p.img} priority={isPage && i === 0} />
             <div className="project-overlay">
-              <h4>{p.title}</h4>
+              <CardHeading>{p.title}</CardHeading>
               <span>{p.cat}</span>
             </div>
           </div>
         ))}
       </div>
+      {limit && (
+        <div className="section-more">
+          <a href="/projects/" className="btn btn-outline">
+            View All Projects
+          </a>
+        </div>
+      )}
     </section>
   );
 }

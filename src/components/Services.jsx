@@ -1,74 +1,49 @@
-const services = [
-  {
-    title: "Tendering & Quantity Surveying",
-    desc: "Accurate cost estimation, bills of quantities, tender documentation and budget management for projects of every scale.",
-  },
-  {
-    title: "Site Clearance & Excavation",
-    desc: "Site preparation, demolition, bulk earthworks, trenching and foundation excavation with modern plant and equipment.",
-  },
-  {
-    title: "Substructure & Brickwork",
-    desc: "Foundations, footings, retaining walls, blockwork and brickwork — built to engineered specifications and Class 1 standards.",
-  },
-  {
-    title: "Roofing & Structural Works",
-    desc: "Timber trusses, IBR & tile roofing, structural steel, slabs and beams — sealed against the Zimbabwean climate.",
-  },
-  {
-    title: "Electrical Works & Tubing",
-    desc: "Domestic and commercial wiring, conduit & tubing, DBs, lighting and ZESA-compliant installations by qualified electricians.",
-  },
-  {
-    title: "Building Finishes",
-    desc: "Plastering, screeding, tiling, painting, ceilings, carpentry, joinery and bespoke finishes that elevate every space.",
-  },
-  {
-    title: "Renovations & Refurbishment",
-    desc: "Transform existing homes, offices and commercial spaces with intelligent layout updates and modern materials.",
-  },
-  {
-    title: "Pavement & Civil Works",
-    desc: "Driveways, paving, kerbing, drainage, road formations and external civil works delivered on schedule.",
-  },
-  {
-    title: "Full Construction Projects",
-    desc: "End-to-end project management — from drawing approvals and tendering through to handover of the completed building.",
-  },
-];
+import { SERVICES } from "../data/services";
 
 const Icon = () => (
-  <svg viewBox="0 0 24 24">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
     <path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.18L19.82 8 12 11.82 4.18 8 12 4.18zM4 9.71l7 3.5v7.16l-7-3.5V9.71zm9 10.66v-7.16l7-3.5v7.16l-7 3.5z" />
   </svg>
 );
 
-export default function Services() {
+export default function Services({ isPage = false, limit }) {
+  const Heading = isPage ? "h1" : "h2";
+  const CardHeading = isPage ? "h2" : "h3";
+  const reveal = isPage ? undefined : "reveal";
+  const visibleServices = limit ? SERVICES.slice(0, limit) : SERVICES;
+
   return (
     <section id="services">
       <div className="section-head">
-        <span className="section-tag reveal">What We Do</span>
-        <h2 className="section-title reveal">
+        <span className={`section-tag ${reveal ?? ""}`.trim()}>What We Do</span>
+        <Heading className={`section-title ${reveal ?? ""}`.trim()}>
           Construction services,
           <br />
           engineered end-to-end.
-        </h2>
-        <p className="section-sub reveal">
+        </Heading>
+        <p className={`section-sub ${reveal ?? ""}`.trim()}>
           From the first sketch to the last coat of paint — every discipline you
           need to bring your project to life, under one trusted roof.
         </p>
       </div>
       <div className="services-grid">
-        {services.map((s, i) => (
-          <div className="service-card stagger" key={i}>
+        {visibleServices.map((s) => (
+          <div className="service-card stagger" id={s.slug} key={s.slug}>
             <div className="service-icon">
               <Icon />
             </div>
-            <h3>{s.title}</h3>
+            <CardHeading>{s.title}</CardHeading>
             <p>{s.desc}</p>
           </div>
         ))}
       </div>
+      {limit && (
+        <div className="section-more">
+          <a href="/services/" className="btn btn-outline">
+            View All Construction Services
+          </a>
+        </div>
+      )}
     </section>
   );
 }

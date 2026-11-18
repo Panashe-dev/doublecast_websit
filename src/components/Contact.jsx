@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BUSINESS } from "../data/site";
 
 const services = [
   "Tendering & Quantity Surveying",
@@ -53,33 +54,34 @@ export default function Contact() {
   return (
     <section id="contact">
       <div className="contact-inner">
-        <div className="contact-left reveal-left">
+        <div className="contact-left">
           <span className="section-tag">Get in Touch</span>
-          <h2 className="section-title">Let&apos;s plan your build.</h2>
+          <h1 className="section-title">Let&apos;s plan your build.</h1>
           <p className="section-sub">
             Share a few details about your project and we&apos;ll get back to
             you within one working day.
           </p>
-          <div className="contact-info">
+          <address className="contact-info">
             <p>
-              <Pin /> 19446 Damafalls, Harare, Zimbabwe
+              <Pin /> {BUSINESS.address.display}
             </p>
             <p>
               <Phone />
-              <span>
-                +263 77 116 5810
-                <br />
-                +263 78 291 5280
-                <br />
-                +263 77 870 1389
+              <span className="contact-phones">
+                {BUSINESS.phones.map((phone) => (
+                  <a href={`tel:${phone.e164}`} key={phone.e164}>
+                    {phone.display}
+                  </a>
+                ))}
               </span>
             </p>
             <p>
-              <Mail /> doublecastconstruction@gmail.com
+              <Mail />
+              <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>
             </p>
-          </div>
+          </address>
         </div>
-        <div className="contact-right reveal-right">
+        <div className="contact-right">
           <form className="contact-form" onSubmit={handleSubmit}>
             <div className="form-row">
               <div className="form-group">
@@ -88,6 +90,7 @@ export default function Contact() {
                   type="text"
                   id="fname"
                   name="fname"
+                  autoComplete="given-name"
                   placeholder="John"
                   required
                 />
@@ -98,6 +101,7 @@ export default function Contact() {
                   type="text"
                   id="lname"
                   name="lname"
+                  autoComplete="family-name"
                   placeholder="Doe"
                   required
                 />
@@ -109,6 +113,7 @@ export default function Contact() {
                 type="email"
                 id="email"
                 name="email"
+                autoComplete="email"
                 placeholder="you@example.com"
                 required
               />
@@ -119,6 +124,7 @@ export default function Contact() {
                 type="tel"
                 id="phone"
                 name="phone"
+                autoComplete="tel"
                 placeholder="+263 ..."
               />
             </div>

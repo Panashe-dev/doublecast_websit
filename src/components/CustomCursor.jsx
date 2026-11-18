@@ -8,6 +8,7 @@ export default function CustomCursor() {
     const dot = dotRef.current;
     const ring = ringRef.current;
     if (!dot || !ring) return;
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
 
     let mx = 0,
       my = 0,

@@ -20,10 +20,11 @@ export default function Footer() {
           </p>
           <div className="footer-social">
             <a
-              href="https://wa.me/26377116581"
+              href="https://wa.me/263771165810"
               target="_blank"
               rel="noreferrer"
-              title="WhatsApp">
+              title="WhatsApp"
+              aria-label="WhatsApp">
               <svg
                 width="16"
                 height="16"
@@ -37,7 +38,8 @@ export default function Footer() {
               href="https://facebook.com/doublecastconstruction"
               target="_blank"
               rel="noreferrer"
-              title="Facebook">
+              title="Facebook"
+              aria-label="Facebook">
               <svg
                 width="16"
                 height="16"
@@ -50,7 +52,8 @@ export default function Footer() {
               href="https://twitter.com/doublecastconstruction"
               target="_blank"
               rel="noreferrer"
-              title="Twitter">
+              title="Twitter"
+              aria-label="Twitter">
               <svg
                 width="15"
                 height="15"
@@ -62,39 +65,39 @@ export default function Footer() {
           </div>
         </div>
         <div className="footer-col">
-          <h4>Services</h4>
+          <h2>Services</h2>
           <ul>
             <li>
-              <a href="#services">Tendering & QS</a>
+              <a href="/services/#tendering-quantity-surveying">Tendering & QS</a>
             </li>
             <li>
-              <a href="#services">Site Clearance</a>
+              <a href="/services/#site-clearance-excavation">Site Clearance</a>
             </li>
             <li>
-              <a href="#services">Brickwork & Building</a>
+              <a href="/services/#substructure-brickwork">Brickwork & Building</a>
             </li>
             <li>
-              <a href="#services">Electrical Works</a>
+              <a href="/services/#electrical-works-tubing">Electrical Works</a>
             </li>
             <li>
-              <a href="#services">Finishes</a>
+              <a href="/services/#building-finishes">Finishes</a>
             </li>
             <li>
-              <a href="#services">Renovations</a>
+              <a href="/services/#renovations-refurbishment">Renovations</a>
             </li>
             <li>
-              <a href="#services">Pavement & Civil</a>
+              <a href="/services/#pavement-civil-works">Pavement & Civil</a>
             </li>
           </ul>
         </div>
         <div className="footer-col">
-          <h4>Contact</h4>
+          <h2>Contact</h2>
           <ul>
             <li>
               <a href="mailto:doublecastconstruction@gmail.com">Email Us</a>
             </li>
             <li>
-              <a href="tel:+26377116581">+263 77 116 5810</a>
+              <a href="tel:+263771165810">+263 77 116 5810</a>
             </li>
             <li>
               <a href="tel:+263782915280">+263 78 291 5280</a>
@@ -104,7 +107,7 @@ export default function Footer() {
             </li>
             <li>
               <a
-                href="https://wa.me/26377116581"
+                href="https://wa.me/263771165810"
                 target="_blank"
                 rel="noreferrer">
                 WhatsApp

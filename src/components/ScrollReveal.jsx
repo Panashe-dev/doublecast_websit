@@ -2,10 +2,17 @@ import { useEffect } from "react";
 
 export default function ScrollReveal() {
   useEffect(() => {
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
-          if (e.isIntersecting) e.target.classList.add("visible");
+          if (e.isIntersecting) {
+            e.target.classList.add("visible");
+            io.unobserve(e.target);
+          }
         });
       },
       { threshold: 0.11 },
@@ -46,37 +53,33 @@ export default function ScrollReveal() {
       { threshold: 0.5 },
     );
 
-    document.querySelectorAll("[data-count]").forEach((el) => cio.observe(el));
+    if (!reduceMotion) {
+      document
+        .querySelectorAll("[data-count]")
+        .forEach((el) => cio.observe(el));
+    }
 
     // Nav scroll
     const nav = document.querySelector("nav");
     const scrollBtn = document.getElementById("scroll-top");
-    const sections = [
-      "home",
-      "services",
-      "team",
-      "projects",
-      "about",
-      "contact",
-    ];
-    const onScroll = () => {
+    let frame = null;
+    const update = () => {
+      frame = null;
       const y = window.scrollY;
       if (nav) nav.classList.toggle("scrolled", y > 60);
       if (scrollBtn) scrollBtn.classList.toggle("show", y > 450);
-      sections.forEach((id) => {
-        const sec = document.getElementById(id);
-        const link = document.querySelector(`.nav-links a[href="#${id}"]`);
-        if (!sec || !link) return;
-        const r = sec.getBoundingClientRect();
-        link.classList.toggle("active", r.top <= 90 && r.bottom > 90);
-      });
     };
-    window.addEventListener("scroll", onScroll);
+    const onScroll = () => {
+      if (frame === null) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
 
     return () => {
       io.disconnect();
       cio.disconnect();
       window.removeEventListener("scroll", onScroll);
+      if (frame !== null) cancelAnimationFrame(frame);
     };
   }, []);
 

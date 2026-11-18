@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Capabilities from "./components/Capabilities";
@@ -10,49 +9,66 @@ import Projects from "./components/Projects";
 import CtaStrip from "./components/CtaStrip";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-import Loader from "./components/Loader";
+import NotFound from "./components/NotFound";
 import CustomCursor from "./components/CustomCursor";
 import FloatingElements from "./components/FloatingElements";
 import ScrollReveal from "./components/ScrollReveal";
 
-function App() {
-  useEffect(() => {
-    // Smooth scroll for anchor links
-    const handleAnchorClick = (e) => {
-      const href = e.currentTarget.getAttribute("href");
-      if (href && href.startsWith("#")) {
-        const target = document.querySelector(href);
-        if (target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      }
-    };
+const PAGES = {
+  "/": () => (
+    <>
+      <Hero />
+      <Capabilities />
+      <Services limit={6} />
+      <WhyUs />
+      <Projects limit={3} />
+      <CtaStrip />
+    </>
+  ),
+  "/services/": () => (
+    <>
+      <Services isPage />
+      <CtaStrip />
+    </>
+  ),
+  "/projects/": () => (
+    <>
+      <Projects isPage />
+      <CtaStrip />
+    </>
+  ),
+  "/team/": () => (
+    <>
+      <Team />
+      <CtaStrip />
+    </>
+  ),
+  "/about/": () => (
+    <>
+      <About />
+      <WhyUs />
+      <CtaStrip />
+    </>
+  ),
+  "/contact/": () => <Contact />,
+};
 
-    const links = document.querySelectorAll('a[href^="#"]');
-    links.forEach((link) => link.addEventListener("click", handleAnchorClick));
+const normalizePath = (path) => (path.endsWith("/") ? path : `${path}/`);
 
-    return () => {
-      links.forEach((link) =>
-        link.removeEventListener("click", handleAnchorClick),
-      );
-    };
-  }, []);
+function App({ path }) {
+  const currentPath = normalizePath(path);
+  const Page = PAGES[currentPath] ?? NotFound;
 
   return (
     <>
-      <Loader />
+      <a className="skip-link" href="#main">
+        Skip to main content
+      </a>
       <CustomCursor />
-      <Navbar />
-      <Hero />
-      <Capabilities />
-      <Services />
-      <Team />
-      <WhyUs />
-      <About />
-      <Projects />
-      <CtaStrip />
-      <Contact />
+      <Navbar currentPath={currentPath} />
+      <main id="main" tabIndex={-1}>
+        <Page />
+      </main>
       <Footer />
       <FloatingElements />
       <ScrollReveal />

@@ -33,7 +33,7 @@ export default function WhyUs() {
       <div className="why-grid">
         {reasons.map((r, i) => (
           <div className="why-card stagger" key={i}>
-            <h4>{r.title}</h4>
+            <h3>{r.title}</h3>
             <p>{r.desc}</p>
           </div>
         ))}
